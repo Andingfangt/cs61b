@@ -1,6 +1,8 @@
 package game2048;
 
+import java.util.ArrayList;
 import java.util.Formatter;
+import java.util.Objects;
 import java.util.Observable;
 
 
@@ -113,17 +115,240 @@ public class Model extends Observable {
         // TODO: Modify this.board (and perhaps this.score) to account
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
+        if (side != Side.NORTH){
+            board.setViewingPerspective(side);
+        }
+        changed = helprow3(changed);
+        changed = helprow2(changed);
+        changed = helprow1(changed);
+        changed = helprow0(changed);
+
+        if (side != Side.NORTH){
+            board.setViewingPerspective(Side.NORTH);
+        }
 
         checkGameOver();
         if (changed) {
             setChanged();
         }
+
         return changed;
+
     }
 
     /** Checks if the game is over and sets the gameOver variable
      *  appropriately.
      */
+    private boolean helprow3(boolean changed){
+        int r = 3;
+        for (int c=0; c<board.size();c++){
+            if (board.tile(c,r) != null) {
+                Tile t = board.tile(c, r);
+                if (emptySpaceExists(board)){
+                    board.move(c,r,t);
+                }
+            }
+        }
+        return changed;
+    }
+
+    private boolean helprow2(boolean changed){
+        int r = 2;
+        for (int c=0; c<board.size();c++){
+            if (board.tile(c,r) != null){
+                Tile t = board.tile(c,r);
+                if (board.tile(c,r+1) == null ){
+                    board.move(c,r+1,t);
+                    changed = true;
+                }else if (samevalue(c,r+1,c,r)){
+                    board.move(c,r+1,t);
+                    score += board.tile(c,r+1).value();
+                    board.tile(c,r+1).ischanged = true;
+                    changed = true;
+                } else if (emptySpaceExists(board)) {
+                    board.move(c,r,t);
+                    changed =true;
+                }
+            }
+        }
+        return changed;
+    }
+
+    private boolean helprow1(boolean changed){
+        int r = 1;
+        for (int c=0; c<board.size();c++) {
+            Tile t = board.tile(c, r);
+            if (t != null) {
+                if (board.tile(c, r + 1) == null) {
+                    if (board.tile(c, r + 2) == null){
+                        board.move(c, r + 2, t);
+                        changed =true;
+                    }else {
+                        if(samevalue(c,r+2,c,r)){
+                            board.move(c,r+2,t);
+                            score += board.tile(c,r+2).value();
+                        }else {
+                            board.move(c,r+1,t);
+                        }
+                        changed =true;
+                    }
+                } else if (board.tile(c,r+2)==null) {
+                    if (samevalue(c,r+1,c,r)){
+                        board.move(c,r+2,t);
+                        score += board.tile(c,r+2).value();
+                        changed =true;
+                    } else{
+                        board.move(c,r+1,t);
+                        changed =true;
+                    }
+
+                }else {
+                    if (samevalue(c,r+1,c,r)){
+                        board.move(c,r+1,t);
+                        score += board.tile(c,r+1).value();
+                        changed = true;
+                    }else if (emptySpaceExists(board)) {
+                        board.move(c,r,t);
+                        changed =true;
+                    }
+                }
+            }
+        }
+        return changed;
+    }
+
+    private boolean helprow0(boolean changed){
+        int r = 0;
+        for (int c =0;c<board.size();c++){
+            if (board.tile(c,r) != null){
+                Tile t = board.tile(c,r);
+                if (r0movetor3(c)){
+                    board.move(c,3,t);
+                    changed = true;
+                }else if (r0movetor2(c)){
+                    board.move(c,2,t);
+                    changed =true;
+                }else if (r0movetor1(c)){
+                    board.move(c,1,t);
+                    changed =true;
+                }
+
+            }
+        }
+        return changed;
+    }
+
+    private boolean r0movetor1(int c){
+        if (nullcount(c) == 0){
+            if (samevalue(c,0,c,1)){
+                score += board.tile(c,0).value()*2;
+                return true;
+            }
+        }else if ((nullcount(c) == 1)){
+            return !is_near_eql(c);
+        }
+        return false;
+    }
+    private boolean r0movetor2(int c) {
+        if (nullcount(c) == 0){
+            if (samevalue(c,0,c,1) && samevalue(c,2,c,3)){
+                score += board.tile(c,0).value()*2;
+                return true;
+            }
+        }else if (nullcount(c) == 1 ){
+            if (isfourdiff(c)) {
+                return false;
+            } else if(is_near_eql(c)){
+                if (!is_lefttow_eql(c)){
+                    score += board.tile(c,0).value()*2;
+                }
+                return true;
+            }
+        }else if (nullcount(c) == 2){
+            if (isfourdiff(c)){
+                return true;
+            } else return samebutchanged(c, exsist_r(c));
+        }
+        return false;
+    }
+    private int exsist_r(int c){
+        for (int r = 1;r<=3;r++){
+            if (!isnull(c,r)){
+                return r;
+            }
+        }
+        return 0;
+    }
+    private boolean samebutchanged(int c,int r){
+        return board.tile(c,r).ischanged ;
+    }
+    private boolean is_lefttow_eql(int c){
+        ArrayList<Integer> list = new ArrayList<>();
+        for (int i = 3; i >= 0; i--) {
+            int value = isnull(c, i) ? -i : board.tile(c, i).value();
+            if (value > 0) {
+                list.add(value);
+            }
+        }
+        return Objects.equals(list.get(0), list.get(1));
+    }
+    private boolean is_near_eql(int c){
+        ArrayList<Integer> list = new ArrayList<>();
+        for (int i = 3; i >= 0; i--) {
+            int value = isnull(c, i) ? -i : board.tile(c, i).value();
+            if (value > 0) {
+                list.add(value);
+            }
+        }
+        return Objects.equals(list.get(0), list.get(1)) || Objects.equals(list.get(1), list.get(2));
+    }
+    private boolean isfourdiff(int c){
+        int tri = (isnull(c,3))? -3 : board.tile(c,3).value();
+        int sec = (isnull(c,2))? -2 : board.tile(c,2).value();
+        int one = (isnull(c,1))? -1 : board.tile(c,1).value();
+        int zero = board.tile(c,0).value();
+        return tri != sec && tri != one && tri != zero && sec != one && sec != zero && one != zero;
+    }
+
+    private int nullcount(int c){
+        int res = 0;
+        for (int r =0;r<board.size();r++){
+            if (isnull(c,r)){
+                res ++;
+            }
+        }
+        return res;
+    }
+    private boolean r0movetor3(int c){
+        if (isnull(c,1) && isnull(c,2) && isnull(c,3)){
+            return true;
+        }else if (tow_xx(c) || x_tow_x(c) || xx_two(c)){
+            score += board.tile(c,0).value()*2;
+            return true;
+        }
+        return false;
+    }
+
+    private boolean tow_xx(int c){
+        return !isnull(c,3) && samevalue(c,0,c,3) && isnull(c,1) && isnull(c,2) && !board.tile(c,3).ischanged;
+    }
+
+    private boolean x_tow_x(int c){
+        return !isnull(c,2) && samevalue(c,0,c,2) && isnull(c,1) && isnull(c,3);
+    }
+
+    private boolean xx_two(int c){
+        return !isnull(c,1) && samevalue(c,0,c,1) && isnull(c,3) && isnull(c,2);
+    }
+    private boolean isnull(int c, int r){
+        return board.tile(c,r) == null;
+    }
+    private boolean samevalue(int c1, int r1, int c2, int r2){
+        int v1 = board.tile(c1,r1).value();
+        int v2 = board.tile(c2,r2).value();
+        return v1 == v2;
+    }
+
     private void checkGameOver() {
         gameOver = checkGameOver(board);
     }
@@ -137,7 +362,14 @@ public class Model extends Observable {
      *  Empty spaces are stored as null.
      * */
     public static boolean emptySpaceExists(Board b) {
-        // TODO: Fill in this function.
+        int len = b.size();
+        for (int i=0; i<len; i++){
+            for (int j=0;j<len;j++){
+               if (b.tile(i,j) == null){
+                   return true;
+               }
+            }
+        }
         return false;
     }
 
@@ -147,7 +379,16 @@ public class Model extends Observable {
      * given a Tile object t, we get its value with t.value().
      */
     public static boolean maxTileExists(Board b) {
-        // TODO: Fill in this function.
+        int len = b.size();
+        for (int i=0; i<len; i++){
+            for (int j=0;j<len;j++){
+                if (b.tile(i,j) == null){
+                    continue;
+                }if(b.tile(i,j).value() == MAX_PIECE){
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -158,7 +399,26 @@ public class Model extends Observable {
      * 2. There are two adjacent tiles with the same value.
      */
     public static boolean atLeastOneMoveExists(Board b) {
-        // TODO: Fill in this function.
+        if (emptySpaceExists(b)){
+            return true;
+        }
+        int len = b.size();
+        for (int i=0; i<len; i++){
+            for (int j=0;j<len;j++){
+                int cv = b.tile(i,j).value();
+                int upv = -1;
+                int rgtv = -1;
+                if (i < len-1){
+                    upv = b.tile(i+1,j).value();
+                }
+                if (j < len-1){
+                    rgtv = b.tile(i, j+1).value();
+                }
+                if (cv == upv || cv == rgtv ){
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
