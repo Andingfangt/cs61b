@@ -5,8 +5,6 @@ package game2048;
  */
 public class Tile {
 
-    public boolean ischanged = false;
-
     /** A new tile with VALUE as its value at (ROW, COL).  This
      *  constructor is private, so all tiles are created by the
      *  factory methods create, move, and merge. */

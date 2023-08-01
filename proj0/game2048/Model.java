@@ -9,8 +9,11 @@ import java.util.Observable;
 /** The state of a game of 2048.
  *  @author TODO: YOUR NAME HERE
  */
+
+
 public class Model extends Observable {
     /** Current contents of the board. */
+    private T helpt = new T();
     private Board board;
     /** Current score. */
     private int score;
@@ -112,6 +115,7 @@ public class Model extends Observable {
         boolean changed;
         changed = false;
 
+
         // TODO: Modify this.board (and perhaps this.score) to account
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
@@ -163,7 +167,7 @@ public class Model extends Observable {
                 }else if (samevalue(c,r+1,c,r)){
                     board.move(c,r+1,t);
                     score += board.tile(c,r+1).value();
-                    board.tile(c,r+1).ischanged = true;
+                    helpt.setChanged(c,r+1,true);
                     changed = true;
                 } else if (emptySpaceExists(board)) {
                     board.move(c,r,t);
@@ -173,6 +177,25 @@ public class Model extends Observable {
         }
         return changed;
     }
+
+     private static class T{
+         private boolean[][] matrix = new boolean[4][4];
+
+         private T() {
+             // Initialize all elements to false
+             for (int i = 0; i < 4; i++) {
+                 for (int j = 0; j < 4; j++) {
+                     matrix[i][j] = false;
+                 }
+             }
+         }
+         public boolean isChanged(int c, int r){
+             return matrix[c][r];
+         }
+         public void setChanged(int c, int r, boolean value) {
+             matrix[c][r] = value;
+         }
+     }
 
     private boolean helprow1(boolean changed){
         int r = 1;
@@ -280,7 +303,7 @@ public class Model extends Observable {
         return 0;
     }
     private boolean samebutchanged(int c,int r){
-        return board.tile(c,r).ischanged ;
+        return helpt.isChanged(c,r) ;
     }
     private boolean is_lefttow_eql(int c){
         ArrayList<Integer> list = new ArrayList<>();
@@ -330,7 +353,7 @@ public class Model extends Observable {
     }
 
     private boolean tow_xx(int c){
-        return !isnull(c,3) && samevalue(c,0,c,3) && isnull(c,1) && isnull(c,2) && !board.tile(c,3).ischanged;
+        return !isnull(c,3) && samevalue(c,0,c,3) && isnull(c,1) && isnull(c,2) && !helpt.isChanged(c,3);
     }
 
     private boolean x_tow_x(int c){
