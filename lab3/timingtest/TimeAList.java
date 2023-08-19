@@ -1,5 +1,10 @@
 package timingtest;
+import afu.org.checkerframework.checker.igj.qual.I;
+import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Stopwatch;
+import org.checkerframework.checker.units.qual.A;
+
+import javax.naming.InsufficientResourcesException;
 
 /**
  * Created by hug.
@@ -21,7 +26,26 @@ public class TimeAList {
         timeAListConstruction();
     }
 
+    public static AList<Integer> getNAList(){
+        AList<Integer> Ns = new AList<>();
+        for (int i =1000;i<=128000;i*=2){
+            Ns.addLast(i);
+        }
+        return Ns;
+    }
     public static void timeAListConstruction() {
-        // TODO: YOUR CODE HERE
+        AList<Integer> Ns =  getNAList();
+        AList<Double> times = new AList<>();
+        AList<Integer> opCounts = getNAList();
+        AList<Integer> test = new AList<>();
+        for (int i =0; i < Ns.size(); i++){
+            Stopwatch sw = new Stopwatch();
+            for (int j =0 ; j < Ns.get(i); j++){
+                test.addLast(1);
+            }
+            double time = sw.elapsedTime();
+            times.addLast(time);
+        }
+        printTimingTable(Ns, times,opCounts);
     }
 }
