@@ -1,5 +1,7 @@
 package deque;
 
+import org.checkerframework.checker.units.qual.A;
+
 import java.util.Iterator;
 
 public class ArrayDeque<T> implements deque<T>, Iterable<T>{
@@ -81,6 +83,7 @@ public class ArrayDeque<T> implements deque<T>, Iterable<T>{
 
     @Override
     public T removeFirst() {
+        if (size == 0 ) return null;
         if ((size < items.length / 4) && (size > 4)) {
             resize(items.length / 4);
         }
@@ -93,6 +96,7 @@ public class ArrayDeque<T> implements deque<T>, Iterable<T>{
 
     @Override
     public T removeLast() {
+        if (size == 0) return null;
         if ((size < items.length / 4) && (size > 4)) {
             resize(items.length / 4);
         }
@@ -109,7 +113,7 @@ public class ArrayDeque<T> implements deque<T>, Iterable<T>{
         int start = startpoint();
         int realindex;
         if (start + index <= items.length - 1) realindex = start + index;
-        else realindex = start + index - items.length + 1;
+        else realindex = start + index - items.length;
         return items[realindex];
     }
 
