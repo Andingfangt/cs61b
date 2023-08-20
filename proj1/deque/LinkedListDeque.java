@@ -50,7 +50,7 @@ public class LinkedListDeque<T> implements deque<T>, Iterable<T>{
         System.out.println();
     }
 
-   /* @Override
+    @Override
     public boolean equals(Object o ){
         if (this == o) return true;
         if  (o instanceof LinkedListDeque L2){
@@ -63,7 +63,7 @@ public class LinkedListDeque<T> implements deque<T>, Iterable<T>{
             return true;
         }
         return false;
-    }*/
+    }
 
     @Override
     public T removeFirst() {

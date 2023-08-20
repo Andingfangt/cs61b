@@ -58,6 +58,23 @@ public class ArrayDequeTest {
     }
 
     @Test
+    public void equalsTest(){
+        ArrayDeque<Integer> D1 = new ArrayDeque<Integer>();
+        ArrayDeque<Integer> D2 = new ArrayDeque<Integer>();
+        ArrayDeque<Integer> D3 = new ArrayDeque<Integer>();
+        D1.addFirst(3);
+        D1.addFirst(2);
+        D1.addFirst(1);
+        D2.addFirst(3);
+        D2.addFirst(2);
+        D2.addFirst(1);
+        D3.addFirst(1);
+        D3.addFirst(2);
+        D3.addFirst(3);
+        assertTrue(D1.equals(D2));
+        assertFalse(D1.equals(D3));
+    }
+    @Test
     public void RandommizeTesttowDeque(){
         LinkedListDeque<Integer> D1 = new LinkedListDeque<Integer>();
         ArrayDeque<Integer> D2 = new ArrayDeque<Integer>();
