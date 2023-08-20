@@ -84,7 +84,7 @@ public class ArrayDeque<T> implements deque<T>, Iterable<T>{
         if ((size < items.length / 4) && (size > 4)) {
             resize(items.length / 4);
         }
-        T returnitem = get(startpoint());
+        T returnitem = get(0);
         items[startpoint()] = null;
         size--;
         nextFirst = startpoint();
@@ -96,7 +96,7 @@ public class ArrayDeque<T> implements deque<T>, Iterable<T>{
         if ((size < items.length / 4) && (size > 4)) {
             resize(items.length / 4);
         }
-        T returnitem = get(endpoint());
+        T returnitem = get(size - 1);
         items[endpoint()] = null;
         size--;
         nextLast = endpoint();
@@ -106,7 +106,11 @@ public class ArrayDeque<T> implements deque<T>, Iterable<T>{
 
     @Override
     public T get(int index) {
-        return items[index];
+        int start = startpoint();
+        int realindex;
+        if (start + index <= items.length - 1) realindex = start + index;
+        else realindex = start + index - items.length + 1;
+        return items[realindex];
     }
 
 
@@ -119,18 +123,17 @@ public class ArrayDeque<T> implements deque<T>, Iterable<T>{
         int position;
 
         public ArrayDequeIterator(){
-            position = startpoint();
+            position = 0;
         }
         @Override
         public boolean hasNext() {
-            return items[position] != null;
+            return get(position) != null;
         }
 
         @Override
         public T next() {
-            T item = items[position];
-            if (position == items.length -1) position = 0;
-            else position++;
+            T item = get(position);
+            position++;
             return item;
         }
     }
