@@ -133,7 +133,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     @Override
     public boolean equals(Object o) {
         if (this == o) {
-              return true;
+            return true;
         }
         if  (o instanceof Deque) {
             Deque D2 = (Deque) o;
@@ -180,7 +180,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     private class ArrayDequeIterator implements Iterator<T> {
         int position;
 
-        public ArrayDequeIterator() {
+        ArrayDequeIterator() {
             position = 0;
         }
         @Override
