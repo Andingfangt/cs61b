@@ -79,5 +79,11 @@ public class TestGuitarString  {
         // for assertEquals(double, double)
         assertEquals("Wrong tic value. Try running the testTic method.", expected, s5, 0.001);
     }
+
+    @Test
+    public void pluckTest() {
+        GuitarString s = new GuitarString(100);
+        s.pluck();
+    }
 }
 
