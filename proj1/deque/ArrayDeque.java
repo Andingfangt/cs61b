@@ -2,38 +2,44 @@ package deque;
 
 import java.util.Iterator;
 
-public class ArrayDeque<T> implements Deque<T>, Iterable<T>{
+public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     private int size;
     private T[] items;
     private int nextFirst;
     private int nextLast;
 
 
-    public ArrayDeque(){
-        size = 0 ;
+    public ArrayDeque() {
+        size = 0;
         items = (T[]) new Object[8];
         nextFirst = 4;
         nextLast = 5;
     }
 
-    private int startpoint(){
-        if (nextFirst == items.length -1 ) return 0;
-        else return nextFirst + 1;
+    private int startpoint() {
+        if (nextFirst == items.length - 1 ) {
+            return 0;
+        } else {
+            return nextFirst + 1;
+        }
     }
 
-    private int endpoint(){
-        if (nextLast == 0) return items.length - 1;
-        else return nextLast - 1;
+    private int endpoint() {
+        if (nextLast == 0) {
+            return items.length - 1;
+        } else {
+            return nextLast - 1;
+        }
     }
-    private void resize(int capacity){
+    private void resize(int capacity) {
         T[] a = (T[]) new Object[capacity];
         int start = startpoint();
         int end = endpoint();
         if (start<end){
-            System.arraycopy(items,start,a,0,end-start+1);
+            System.arraycopy(items, start, a,0,end-start+1);
         }else {
-            System.arraycopy(items,start,a,0,items.length - start);
-            System.arraycopy(items,0,a,items.length- start,end+1);
+            System.arraycopy(items, start, a,0,items.length - start);
+            System.arraycopy(items, 0, a, items.length - start,end + 1);
         }
         items = a;
         nextFirst = items.length - 1 ;
@@ -46,8 +52,11 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T>{
         }
         items[nextFirst] = item;
         size++;
-        if (nextFirst == 0) nextFirst = items.length - 1;
-        else nextFirst--;
+        if (nextFirst == 0) {
+            nextFirst = items.length - 1;
+        } else {
+            nextFirst--;
+        }
     }
 
     @Override
@@ -57,8 +66,11 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T>{
         }
         items[nextLast] = item;
         size++;
-        if (nextLast == items.length - 1) nextLast = 0;
-        else nextLast++;
+        if (nextLast == items.length - 1) {
+            nextLast = 0;
+        } else {
+            nextLast++;
+        }
     }
 
 
@@ -77,7 +89,9 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T>{
 
     @Override
     public T removeFirst() {
-        if (size == 0 ) return null;
+        if (size == 0 ) {
+            return null;
+        }
         if ((size < items.length / 4) && (size > 4)) {
             resize(items.length / 4);
         }
@@ -90,7 +104,9 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T>{
 
     @Override
     public T removeLast() {
-        if (size == 0) return null;
+        if (size == 0) {
+            return null;
+        }
         if ((size < items.length / 4) && (size > 4)) {
             resize(items.length / 4);
         }
@@ -106,8 +122,11 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T>{
     public T get(int index) {
         int start = startpoint();
         int realindex;
-        if (start + index <= items.length - 1) realindex = start + index;
-        else realindex = start + index - items.length;
+        if (start + index <= items.length - 1) {
+            realindex = start + index;
+        } else {
+            realindex = start + index - items.length;
+        }
         return items[realindex];
     }
 
@@ -125,12 +144,16 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T>{
         }
         return false;
     }*/
-        if (this == o) return true;
+        if (this == o) {
+            return true;
+        }
 
         if (o != null && getClass() == o.getClass()) {
             ArrayDeque A2 = (ArrayDeque) o;  // Cast o to ArrayDeque
 
-            if (this.size() != A2.size()) return false;
+            if (this.size() != A2.size()) {
+                return false;
+            }
 
             for (int i = 0; i < size; i++) {
                 if (this.get(i) != A2.get(i)) {
