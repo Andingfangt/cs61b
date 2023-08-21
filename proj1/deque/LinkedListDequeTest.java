@@ -192,5 +192,6 @@ public class LinkedListDequeTest {
         A.addFirst(3);
         A.addFirst(2);
         A.addFirst(1);
+        assertTrue(A.equals(L));
     }
 }
