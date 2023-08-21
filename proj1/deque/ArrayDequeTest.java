@@ -65,9 +65,9 @@ public class ArrayDequeTest {
         D1.addFirst(3);
         D1.addFirst(2);
         D1.addFirst(1);
-        D2.addFirst(3);
-        D2.addFirst(2);
-        D2.addFirst(1);
+        D2.addLast(1);
+        D2.addLast(2);
+        D2.addLast(3);
         D3.addFirst(1);
         D3.addFirst(2);
         D3.addFirst(3);

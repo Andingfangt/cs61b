@@ -179,14 +179,18 @@ public class LinkedListDequeTest {
 
     @Test
     public void equalsTest(){
-        LinkedListDeque<Integer> L = new LinkedListDeque<Integer>();
+        Deque<Integer> L = new LinkedListDeque<Integer>();
         L.addFirst(3);
         L.addFirst(2);
-        LinkedListDeque<Integer> L2 = new LinkedListDeque<Integer>();
-        L2.addFirst(3);
-        L2.addFirst(2);
-
+        L.addFirst(1);
+        Deque<Integer> L2 = new LinkedListDeque<Integer>();
+        L2.addLast(1);
+        L2.addLast(2);
+        L2.addLast(3);
         assertTrue(L.equals(L2));
-
+        Deque<Integer> A = new ArrayDeque<>();
+        A.addFirst(3);
+        A.addFirst(2);
+        A.addFirst(1);
     }
 }

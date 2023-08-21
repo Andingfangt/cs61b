@@ -8,14 +8,14 @@ public class MaxArrayDeque<T> extends ArrayDeque<T> {
         super();
         comparator = c;
     }
-    private T returnMax_with_C(Comparator<T> c) {
-        if (isEmpty()){
+    private T returnMaxWithC(Comparator<T> c) {
+        if (isEmpty()) {
             return null;
         }
         T max = get(0);
-        for (int i = 1;i<size();i++){
+        for (int i = 1; i < size(); i++) {
             T item = get(i);
-            int compareresult = c.compare(max,item);
+            int compareresult = c.compare(max, item);
             if (compareresult < 0) {
                 max = item;
             }
@@ -23,11 +23,11 @@ public class MaxArrayDeque<T> extends ArrayDeque<T> {
         return max;
 
     }
-    public T max(){
-        return returnMax_with_C(comparator);
+    public T max() {
+        return returnMaxWithC(comparator);
     }
 
     public T max(Comparator<T> c) {
-        return returnMax_with_C(c);
+        return returnMaxWithC(c);
     }
 }
