@@ -1,7 +1,6 @@
 package deque;
 
 import edu.princeton.cs.algs4.StdRandom;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.Test;
 
 import java.util.Comparator;
