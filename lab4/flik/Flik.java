@@ -4,14 +4,13 @@ package flik;
  * @author Josh Hug
  * */
 public class Flik {
-    /** @param a Value 1
-     *  @param b Value 2
-     *  @return Whether a and b are the same */
-    public static boolean isSameNumber(Integer a, Integer b) {
+    /**
+     * @param a Value 1
+     * @param b Value 2
+     * @return Whether a and b are the same
+     */
+    public static boolean isSameNumber(int a, int b) {
         return a == b;
     }
-
-    public static void main(String[] args) {
-        System.out.println(isSameNumber(128,128));
-    }
 }
+
