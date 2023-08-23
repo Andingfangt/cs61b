@@ -10,4 +10,8 @@ public class Flik {
     public static boolean isSameNumber(Integer a, Integer b) {
         return a == b;
     }
+
+    public static void main(String[] args) {
+        System.out.println(isSameNumber(128,128));
+    }
 }
