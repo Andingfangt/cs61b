@@ -91,6 +91,11 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
         size ++;
     }
 
+    public void printInOrder() {
+       for (K key : this) {
+           System.out.print(key + " ");
+       }
+    }
     @Override
     public Set<K> keySet() {
        Set<K> set = new HashSet<>();
