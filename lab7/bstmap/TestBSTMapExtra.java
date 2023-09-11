@@ -1,5 +1,6 @@
 package bstmap;
 
+import java.util.Objects;
 import java.util.Set;
 import java.util.HashSet;
 import static org.junit.Assert.*;
@@ -37,6 +38,31 @@ public class TestBSTMapExtra {
      * things like checking for inorder vs. preorder swaps,
      * and is unnecessary in this simple BST implementation.
      */
+
+    @Test
+    public void testNoTwoChildren() {
+        BSTMap<String,String> q = new BSTMap<String,String>();
+        q.put("c","a");
+        q.put("b","a");
+        q.put("a","a");
+        q.put("d","a");
+        q.put("e","a"); // a b c d e
+        assertTrue("a".equals(q.remove("a")));
+        assertTrue(4 == q.size());
+        assertFalse(q.containsKey("a"));
+        assertTrue(q.containsKey("c"));
+        assertTrue(q.containsKey("b"));
+        assertTrue(q.containsKey("d"));
+        assertTrue(q.containsKey("e"));
+
+        assertTrue("a".equals(q.remove("d")));
+        assertTrue(3 == q.size());
+        assertFalse(q.containsKey("a"));
+        assertFalse(q.containsKey("d"));
+        assertTrue(q.containsKey("b"));
+        assertTrue(q.containsKey("c"));
+        assertTrue(q.containsKey("e"));
+    }
     @Test
     public void testRemoveRoot() {
         BSTMap<String,String> q = new BSTMap<String,String>();
